@@ -50,19 +50,21 @@ const App = () => {
 
   return (
     <div className={styles.app}>
-      <SearchBar onSubmit={handleSubmit} />
+      <div className={styles.container}>
+        <SearchBar onSubmit={handleSubmit} />
 
-      {loading && <Loader />}
+        {loading && <Loader />}
 
-      {errorMessage ? (
-        <ErrorMessage />
-      ) : (
-        <MovieGrid onSelect={handleSelect} movies={movies} />
-      )}
+        {errorMessage ? (
+          <ErrorMessage />
+        ) : (
+          <MovieGrid onSelect={handleSelect} movies={movies} />
+        )}
 
-      {selectedMovie && (
-        <MovieModal movie={selectedMovie} onClose={handleClose} />
-      )}
+        {selectedMovie && (
+          <MovieModal movie={selectedMovie} onClose={handleClose} />
+        )}
+      </div>
     </div>
   );
 };
