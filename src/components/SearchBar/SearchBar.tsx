@@ -1,33 +1,30 @@
-import { useRef } from "react";
 import styles from "./SearchBar.module.css";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 export interface SearchBarProps {
-  onSubmit: (query: string) => void;
+  onSubmit: (submitValue: string) => void;
 }
 
 const SearchBar = ({ onSubmit }: SearchBarProps) => {
-  const formRef = useRef<HTMLFormElement>(null);
-
   const handleSubmit = (formData: FormData) => {
-    const query = formData.get("query") as string;
-    const trimmedQuery = query.trim();
+    const inputValue = (formData.get("query") as string).trim();
 
-    if (!trimmedQuery) {
+    if (!inputValue) {
       toast.error("Please enter your search query.");
       return;
     }
 
-    if (trimmedQuery.length < 2) {
+    if (inputValue.length < 2) {
       toast.error("Search query must be at least 2 characters long.");
       return;
     }
 
-    onSubmit(trimmedQuery);
+    onSubmit(inputValue);
   };
 
   return (
     <header className={styles.header}>
+      <Toaster position="top-right" />
       <div className={styles.container}>
         <a
           className={styles.link}
@@ -37,7 +34,8 @@ const SearchBar = ({ onSubmit }: SearchBarProps) => {
         >
           Powered by TMDB
         </a>
-        <form ref={formRef} className={styles.form} action={handleSubmit}>
+
+        <form className={styles.form} action={handleSubmit}>
           <input
             className={styles.input}
             type="text"

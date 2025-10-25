@@ -19,16 +19,16 @@ const MovieGrid = ({ movies, onSelect }: MovieGridProps) => {
             onKeyDown={(e) => e.key === "Enter" && onSelect(movie)}
             tabIndex={0}
             role="button"
-            aria-label={`Відкрити деталі фільму ${movie.title}`}
+            aria-label={`Open movie details for ${movie.title}`}
           >
             <img
               className={styles.image}
               src={
                 movie.poster_path
-                  ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-                  : "/placeholder-movie.png"
+                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                  : "https://via.placeholder.com/500x750?text=No+Image"
               }
-              alt={movie.title}
+              alt={`Poster of ${movie.title}`}
               loading="lazy"
             />
             <h2 className={styles.title}>{movie.title}</h2>

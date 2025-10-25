@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
   },
 });
 
-interface FetchMoviesParams {
+interface MovieSearchParams {
   query: string;
   page?: number;
 }
@@ -20,18 +20,20 @@ interface TMDBResponse {
   total_results: number;
 }
 
-export async function fetchMovies({
+export async function movieSearch({
   query,
   page = 1,
-}: FetchMoviesParams): Promise<Movie[]> {
-  if (!query.trim()) {
+}: MovieSearchParams): Promise<Movie[]> {
+  const cleanQuery = query.trim();
+
+  if (!cleanQuery) {
     return [];
   }
 
   try {
     const response = await axiosInstance.get<TMDBResponse>("/search/movie", {
       params: {
-        query: query.trim(),
+        query: cleanQuery,
         include_adult: false,
         language: "en-US",
         page,
@@ -40,17 +42,17 @@ export async function fetchMovies({
 
     return response.data.results;
   } catch (error) {
-    console.error("Error fetching movies:", error);
+    console.error("TMDB request failed:", error);
 
     if (axios.isAxiosError(error)) {
       if (error.response?.status === 401) {
-        throw new Error("Invalid API token");
+        throw new Error("❌ Invalid API token.");
       }
       if (error.response?.status === 404) {
-        throw new Error("Movies not found");
+        throw new Error("🔍 Movies not found.");
       }
     }
 
-    throw new Error("Failed to fetch movies");
+    throw new Error("⚠️ Failed to fetch movies. Try again later.");
   }
 }
