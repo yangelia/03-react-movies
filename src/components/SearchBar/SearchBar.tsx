@@ -24,7 +24,7 @@ const SearchBar = ({ onSubmit }: SearchBarProps) => {
 
   return (
     <header className={styles.header}>
-      <Toaster position="top-right" />
+      <Toaster position="top-center" />
       <div className={styles.container}>
         <a
           className={styles.link}
